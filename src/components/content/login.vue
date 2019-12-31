@@ -16,13 +16,14 @@
                     </el-form-item>
              </el-form>
              <div class="my-button">
-             <el-button type="primary">登录</el-button>
-             <el-button type="info" >重置</el-button>
+             <el-button type="primary" @click="login">登录</el-button>
+             <el-button type="info" @click="reset" >重置</el-button>
              </div>
        </div>
     </div>
 </template>
 <script>
+import {register} from '../../network/home.js'
 export default {
     name:'login',
     data(){
@@ -40,6 +41,18 @@ export default {
                       {min:6,max:12,message:'请密码长度在6-12位之间'}
                       ]
             }
+        }
+    },
+    methods:{
+        //重置
+        reset(){
+            this.$refs.ruleForm.resetFields();
+        },
+        //登录
+        login(){
+          register().then(res=>{
+              console.log(res);
+          })
         }
     }
 }
