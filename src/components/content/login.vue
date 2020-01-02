@@ -23,14 +23,14 @@
     </div>
 </template>
 <script>
-import {register} from '../../network/home.js'
+import {register,testquery} from '../../network/home.js'
 export default {
     name:'login',
     data(){
         return{
             form:{
-                username:'',
-                password:''
+                username:'admin',
+                password:'123456'
             },
             Formrules:{
                username:[
@@ -50,9 +50,35 @@ export default {
         },
         //登录
         login(){
-          register().then(res=>{
+
+          
+            let data={
+                params:{username:this.form.username,
+                       password:this.form.password
+                }
+            }
+          register(data).then(res=>{
+              console.log('res1',res);
+          })
+
+           let params={
+               quer:'admin',
+               pagenum:1,
+               pagesize:5
+           }
+           console.log('params',params)
+          testquery(params).then(res=>{
               console.log(res);
           })
+
+        // this.$axios.post('http://127.0.0.1:8888/api/private/v1/login',
+        //     {
+        //        username:this.form.username,
+        //       password:this.form.password
+        //     }
+        // ).then(res=>{
+        //     console.log(res);
+        // })
         }
     }
 }
