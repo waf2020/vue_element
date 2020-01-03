@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import {register,testquery} from '../../network/home.js'
+import {register} from '../../network/home.js'
 export default {
     name:'login',
     data(){
@@ -51,25 +51,37 @@ export default {
         //登录
         login(){
 
-          
             let data={
-                params:{username:this.form.username,
-                       password:this.form.password
-                }
-            }
+               username:this.form.username,
+               password:this.form.password   
+              }
           register(data).then(res=>{
-              console.log('res1',res);
+              //console.log(res)
+              
+              if(res.data.meta.status!=200){
+                  
+                   this.$message({
+                   message: '登录失败',
+                   center: true,
+                   type:'error'
+                   
+                     });    
+                 }
+               this.$router.push('/home')
+                 window.sessionStorage.setItem('token',res.data.data.token)
+              console.log(res);
+              
           })
 
-           let params={
-               quer:'admin',
-               pagenum:1,
-               pagesize:5
-           }
-           console.log('params',params)
-          testquery(params).then(res=>{
-              console.log(res);
-          })
+        //    let params={
+        //        quer:'admin',
+        //        pagenum:1,
+        //        pagesize:5
+        //    }
+        //    console.log('params',params)
+        //   testquery(params).then(res=>{
+        //       console.log(res);
+        //   })
 
         // this.$axios.post('http://127.0.0.1:8888/api/private/v1/login',
         //     {
