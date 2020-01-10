@@ -8,7 +8,7 @@ import store from './store'
 //网络封装请求
 import '../src/network/network.js'
 
-
+import './assets/iconfont/iconfont.css'
 
 
 Vue.config.productionTip = false
