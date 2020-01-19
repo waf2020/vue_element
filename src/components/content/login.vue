@@ -80,6 +80,7 @@ export default {
                 type: "error"
               });
             }
+            console.log('通过预验证');
             this.$router.push("/home");
             window.sessionStorage.setItem("token", res.data.data.token);
            
