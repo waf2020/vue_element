@@ -81,8 +81,10 @@ export default {
               });
             }
             console.log('通过预验证');
-            this.$router.push("/home");
+            //这里顺序不能错 要先存 在跳转，不然会出错
             window.sessionStorage.setItem("token", res.data.data.token);
+            this.$router.push("/home");
+            
            
           });
         } else {
