@@ -1,0 +1,11 @@
+.el-card {
+    margin-top: 15px;
+}
+.el-breadcrumb{
+  font-size: 14px;
+}
+
+.el-table{
+  margin-top: 20px;
+  text-align: center !important;
+}

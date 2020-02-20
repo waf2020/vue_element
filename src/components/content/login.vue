@@ -72,15 +72,21 @@ export default {
           //通过预验证
         if (vali) {
           register(data).then(res => {
+           
             if (res.data.meta.status != 200) {
-              let errormsg = res.data.meta.msg;
               this.$message({
-                message: errormsg,
+                message: res.data.meta.msg,
                 center: true,
                 type: "error"
               });
             }
-            console.log('通过预验证');
+
+            this.$message({
+                message: res.data.meta.msg,
+                center: true,
+                type: "success"
+              });
+           // console.log('通过预验证');
             //这里顺序不能错 要先存 在跳转，不然会出错
             window.sessionStorage.setItem("token", res.data.data.token);
             this.$router.push("/home");

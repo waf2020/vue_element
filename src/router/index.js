@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+//import users from'../components/content/user/users.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +16,14 @@ const routes = [
   },
   {
     path:'/home',
-    component:()=>import ('../components/content/home.vue')
+   // redirect:'users',
+    component:()=>import ('../components/content/home.vue'),
+    children:[
+       {path:'users',name:'users',component:()=>import ("../components/content/user/users.vue")}
+      // {path:'/welhome',component:()=>import("../components/welhome.vue")}
+      // {path:'/roles',name:'roles',component:()=>import ("../components/content/role/role.vue")}
+      //{path:'/goods',name:'goods',component:()=>import ("../components/content/goods/goods.vue")}
+  ]
   }
 ]
 
