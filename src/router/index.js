@@ -14,15 +14,17 @@ const routes = [
     path:'/login',
     component:()=>import ('../components/content/login.vue')
   },
+
   {
     path:'/home',
-   // redirect:'users',
+    redirect:'users',
     component:()=>import ('../components/content/home.vue'),
     children:[
-       {path:'users',name:'users',component:()=>import ("../components/content/user/users.vue")}
-      // {path:'/welhome',component:()=>import("../components/welhome.vue")}
-      // {path:'/roles',name:'roles',component:()=>import ("../components/content/role/role.vue")}
-      //{path:'/goods',name:'goods',component:()=>import ("../components/content/goods/goods.vue")}
+       
+       {path:'/users',name:'users',component:()=>import ("../components/content/user/users.vue")},
+       {path:'/roles',name:'roles',component:()=>import ("../components/content/roles/roles.vue")},
+       {path:'/goods',name:'goods',component:()=>import ("../components/content/goods/goods.vue")}
+  
   ]
   }
 ]

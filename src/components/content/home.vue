@@ -31,6 +31,7 @@
       :collapse='iscollapse' 
       :collapse-transition='false'
       router 
+      :default-active="this.$route.path" 
       >
       <!-- 控制折叠与收起 -->
       <div class="fold" @click="toggleCollapse">|||</div>
@@ -42,7 +43,7 @@
           <span>{{item.authName}}</span>
         </template>
         <!-- 二级菜单 -->
-        <el-menu-item v-for="val in item.children" :key="val.id" :index="val.path+''">
+        <el-menu-item v-for="val in item.children" :key="val.id" :index="'/'+val.path+''">
           <!-- 二级菜单模板区域 -->
           <template slot="title">
            <i class="el-icon-menu"></i>
@@ -82,7 +83,8 @@ export default {
       '102':'iconfont icon-manage-order',
       '145':'iconfont icon-integral'
     },
-    iscollapse:false
+    iscollapse:false,
+    
   }
   },
 
@@ -114,9 +116,12 @@ export default {
               });
        }
     })
-
     }
   },
+  //获取当前活跃路由
+    getactiveIndex(){
+      //return this.$route.path
+    },
   created(){
     //获取左侧菜单列表
     this.getMenus();
