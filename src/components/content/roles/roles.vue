@@ -101,7 +101,10 @@ export default {
         this.rolesList = res.data.data;
       });
     },
+//找到被选中的三级权限的id数组
+getNodeIdByThirdRight(){
 
+},
 //获取所有权限列表
 getAllRights(){
  getRights("rights/"+"tree").then(res=>{
