@@ -50,3 +50,19 @@ export function updateUser(url,data) {
 export function deleteUserById(data){
      return baseRequestDel(data);
 }
+
+//获取所有权限列表
+export function getRights(data){
+    return baseRequestGet(data)
+}
+
+//获取所有的角色列表
+export function getRoles(){
+    return baseRequestGet('/roles')
+}
+
+//删除角色指定权限
+
+export function deldeteRightByRole(data){
+    return baseRequestDel(data)
+}

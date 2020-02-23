@@ -23,8 +23,8 @@ const routes = [
        
        {path:'/users',name:'users',component:()=>import ("../components/content/user/users.vue")},
        {path:'/roles',name:'roles',component:()=>import ("../components/content/roles/roles.vue")},
-       {path:'/goods',name:'goods',component:()=>import ("../components/content/goods/goods.vue")}
-  
+       {path:'/goods',name:'goods',component:()=>import ("../components/content/goods/goods.vue")},
+       {path:'/rights',name:'rights',component:()=>import ("../components/content/roles/rights.vue")}
   ]
   }
 ]
