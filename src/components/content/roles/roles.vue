@@ -72,18 +72,19 @@
   default-expand-all
   node-key="id"
   :default-checked-keys="defaultcheckedkeys"
+  ref="tree"
  >
 </el-tree>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogRightVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogRightVisible = false">确 定</el-button>
+    <el-button type="primary" @click="updataRightByRole">确 定</el-button>
   </span>
 </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRoles,deldeteRightByRole,getRights} from "../../../network/home";
+import { getRoles,deldeteRightByRole,getRights,setRightByRole} from "../../../network/home";
 export default {
   name: "roles",
   data() {
@@ -95,8 +96,8 @@ export default {
          label: 'authName',
           children: 'children'
       },
-      defaultcheckedkeys:[116] //默认选中节点的key值
-      
+      defaultcheckedkeys:[116], //默认选中节点的key值
+      roleId:''
     };
   },
   methods: {
@@ -105,11 +106,32 @@ export default {
         this.rolesList = res.data.data;
       });
     },
+
+    updataRightByRole(){
+      const atrKeys=[
+        ...this.$refs.tree.getCheckedKeys(),
+        ...this.$refs.tree.getHalfCheckedKeys()
+      ]
+ const idstr=atrKeys.join(',');
+ setRightByRole('roles/'+this.roleId+'/rights',{rids:idstr}).then(res=>{
+   console.log(res);
+   if(res.data.meta.status!=200){
+     this.$message.error('更新权限失败')
+   }else{
+     this.$message.success(res.data.meta.msg)
+   }
+   this.dialogRightVisible=false;
+
+ })
+      // console.log('idstr:'+typeof(idstr));
+      //  console.log(this.$refs.tree.getCheckedKeys())
+      //   console.log(this.$refs.tree.getHalfCheckedKeys())
+    },
 //找到被选中的三级权限的id数组
 getNodeIdByThirdRight(node,arr){
   if(!node.children){
-    console.log('arr'+arr);
-    console.log(Array.isArray(arr))
+    //console.log('arr'+arr);
+    //console.log(Array.isArray(arr))
     return arr.push(node.id)
   }
   node.children.forEach(item=>{
@@ -131,6 +153,8 @@ getAllRights(){
     setRights(valrow){
       this.dialogRightVisible=true;
      // console.log(valrow)
+     this.roleId=valrow.id;
+
       this.getNodeIdByThirdRight(valrow,this.defaultcheckedkeys);
        
     },

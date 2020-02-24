@@ -66,3 +66,9 @@ export function getRoles(){
 export function deldeteRightByRole(data){
     return baseRequestDel(data)
 }
+
+//角色授权
+
+export function setRightByRole(url,data){
+    return baseRequestPost(url,data)
+}
