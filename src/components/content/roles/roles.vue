@@ -45,10 +45,10 @@
         <el-table-column prop="roleName" label="角色名称"></el-table-column>
         <el-table-column prop="roleDesc" label="角色描述"></el-table-column>
         <el-table-column label="操作">
-          <template>
+          <template slot-scope="val">
             <el-button type="primary" icon="el-icon-edit" size="small">编辑</el-button>
             <el-button type="danger" icon="el-icon-delete" size="small">删除</el-button>
-            <el-button type="warning" icon="el-icon-s-tools" size="small" @click="setRights()">分配</el-button>
+            <el-button type="warning" icon="el-icon-s-tools" size="small" @click="setRights(val.row)">分配</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -70,6 +70,8 @@
   :props="defaultprops"
   show-checkbox
   default-expand-all
+  node-key="id"
+  :default-checked-keys="defaultcheckedkeys"
  >
 </el-tree>
   <span slot="footer" class="dialog-footer">
@@ -92,7 +94,9 @@ export default {
       defaultprops:{
          label: 'authName',
           children: 'children'
-      }
+      },
+      defaultcheckedkeys:[116] //默认选中节点的key值
+      
     };
   },
   methods: {
@@ -102,8 +106,15 @@ export default {
       });
     },
 //找到被选中的三级权限的id数组
-getNodeIdByThirdRight(){
-
+getNodeIdByThirdRight(node,arr){
+  if(!node.children){
+    console.log('arr'+arr);
+    console.log(Array.isArray(arr))
+    return arr.push(node.id)
+  }
+  node.children.forEach(item=>{
+    this.getNodeIdByThirdRight(item,arr);
+  })
 },
 //获取所有权限列表
 getAllRights(){
@@ -117,16 +128,19 @@ getAllRights(){
  })
 },
 //分配权限
-    setRights(){
+    setRights(valrow){
       this.dialogRightVisible=true;
-       //获取所有权限列表
+     // console.log(valrow)
+      this.getNodeIdByThirdRight(valrow,this.defaultcheckedkeys);
        
     },
+
+    
  //删除角色指定权限
       handleClose(val,rightID) {
       let roleId=val.id;
-      console.log('roleId:'+roleId);
-      console.log('roleId:'+rightID);
+      //console.log('roleId:'+roleId);
+     // console.log('roleId:'+rightID);
       deldeteRightByRole("roles/"+roleId+"/rights/"+rightID).then(res=>{
         if(res.data.meta.status===200){
             this.$message.success(res.data.meta.msg);
@@ -139,7 +153,7 @@ getAllRights(){
   },
   created() {
     this.getAllroles();
-    this.getAllRights();
+    this.getAllRights(); //获取所有权限列表
   }
 };
 </script>
