@@ -126,7 +126,8 @@
     </el-dialog>
 
     <!-- 分配角色弹出框 -->
-    <el-dialog title="分配角色" :visible.sync="dialogSetRoleVisible">
+    <el-dialog title="分配角色" :visible.sync="dialogSetRoleVisible"
+    @close="closeSetUserRole">
       <span>
         <p>当前用户：{{userInfo.username}}</p>
         <p>当前角色：{{userInfo.role_name}}</p>
@@ -158,7 +159,7 @@ import {
   updateUser,
   deleteUserById,
   
-  //assionRole,
+  assionRole,
   getRoles
 } from "../../../network/home.js";
 export default {
@@ -252,14 +253,27 @@ export default {
         }
       });
     },
-    //分配角色
+
+    //清空设置选中的selectID
+    closeSetUserRole(){
+ this.selectID=""
+    },
+    //设置新分配角色
 setUserRole(){
-  
+  assionRole('users/'+this.userInfo.id+'/role',{rid:this.selectID}).then(res=>{
+    if(res.data.meta.status!=200){
+      this.$message.error(res.data.meta.msg)
+    }else{
+      this.$message.success(res.data.meta.msg);
+      this.dialogSetRoleVisible=false;
+      this.getuser()
+    }
+  })
   
 },
 //分配角色
 assignRoles(val){
-  console.log(val)
+  //console.log(val)
   this.userInfo=val
   this.dialogSetRoleVisible=true;
   //获取所有的角色列表
@@ -270,7 +284,7 @@ assignRoles(val){
     else{
       this.roleList=res.data.data
     }
-    console.log(res)
+   // console.log(res)
   })
 },
     //获取用户列表
@@ -309,7 +323,7 @@ assignRoles(val){
       modifyUserState(
         "users/" + parseInt(val.id) + "/state/" + val.mg_state + ""
       ).then(res => {
-        console.log(res);
+       // console.log(res);
         if (res.data.meta.status == 200) {
           this.$message({
             message: res.data.meta.msg,
@@ -334,7 +348,7 @@ assignRoles(val){
         if (valid) {
           adduser(this.userForm)
             .then(res => {
-              console.log(res.data.meta.status);
+              //console.log(res.data.meta.status);
               if (res.data.meta.status == 201) {
                
                 this.$refs.userForm.resetFields();
@@ -394,7 +408,7 @@ assignRoles(val){
 
     //根据id查找用户
     getUserByID(val) {
-      console.log("val", val);
+     // console.log("val", val);
 
       //根据id查找用户信息
       getUserInfoByID("users/" + val).then(res => {

@@ -74,6 +74,6 @@ export function setRightByRole(url,data){
 }
 
 //分配用户角色
-export function assionRole(data){
-    return baseRequestPut(data)
+export function assionRole(url,data){
+    return baseRequestPut(url,data)
 }
