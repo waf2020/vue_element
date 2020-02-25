@@ -61,8 +61,8 @@
                 @click="deleteUser(vals.row.id)"
               ></el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="用户" placement="top">
-              <el-button type="warning" icon="el-icon-s-tools" circle></el-button>
+            <el-tooltip class="item" effect="dark" content="分配角色" placement="top">
+              <el-button type="warning" icon="el-icon-s-tools" circle @click="assignRoles(vals.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -125,7 +125,27 @@
       </span>
     </el-dialog>
 
-    删除用户弹出框
+    <!-- 分配角色弹出框 -->
+    <el-dialog title="分配角色" :visible.sync="dialogSetRoleVisible">
+      <span>
+        <p>当前用户：{{userInfo.username}}</p>
+        <p>当前角色：{{userInfo.role_name}}</p>
+        <span>设置角色：</span>
+         <el-select v-model="selectID" placeholder="请选择">
+    <el-option
+      v-for="item in roleList"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id">
+    </el-option>
+  </el-select>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogSetRoleVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setUserRole()">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -136,7 +156,10 @@ import {
   adduser,
   getUserInfoByID,
   updateUser,
-  deleteUserById
+  deleteUserById,
+  
+  //assionRole,
+  getRoles
 } from "../../../network/home.js";
 export default {
   name: "users",
@@ -146,6 +169,10 @@ export default {
       totalpage: 0, //总记录数
       dialogFormVisible: false,
       dialogUpdateVisible: false,
+      dialogSetRoleVisible:false,
+      userInfo:{},
+      roleList:[],//角色列表
+      selectID:'',//已选中的下拉框的值
       //queryInfo:'' ,//搜索用户
       queryInfos: {
         //查询条件
@@ -225,7 +252,27 @@ export default {
         }
       });
     },
-
+    //分配角色
+setUserRole(){
+  
+  
+},
+//分配角色
+assignRoles(val){
+  console.log(val)
+  this.userInfo=val
+  this.dialogSetRoleVisible=true;
+  //获取所有的角色列表
+  getRoles().then(res=>{
+    if(res.data.meta.status!=200){
+      this.$message.error('获取角色失败')
+    }
+    else{
+      this.roleList=res.data.data
+    }
+    console.log(res)
+  })
+},
     //获取用户列表
     getuser() {
       

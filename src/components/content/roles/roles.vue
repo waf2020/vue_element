@@ -121,6 +121,7 @@ export default {
      this.$message.success(res.data.meta.msg)
    }
    this.dialogRightVisible=false;
+   this.defaultcheckedkeys=[]
 
  })
       // console.log('idstr:'+typeof(idstr));

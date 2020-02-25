@@ -72,3 +72,8 @@ export function deldeteRightByRole(data){
 export function setRightByRole(url,data){
     return baseRequestPost(url,data)
 }
+
+//分配用户角色
+export function assionRole(data){
+    return baseRequestPut(data)
+}
