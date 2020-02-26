@@ -26,6 +26,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+//引入树状表格
+import ZkTable from 'vue-table-with-tree-grid'
+Vue.use(ZkTable);
+
 new Vue({
   router,
   store,

@@ -77,3 +77,8 @@ export function setRightByRole(url,data){
 export function assionRole(url,data){
     return baseRequestPut(url,data)
 }
+
+//获取商品分类数据列表
+export function getCategory(data){
+    return baseRequestGet('/categories',data);
+}
