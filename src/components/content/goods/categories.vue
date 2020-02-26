@@ -3,10 +3,20 @@
         <el-card>
             <el-button type="primary">添加分类</el-button>
             <!-- 树状表格区域 -->
+            ZkTable
             <zk-table
-             :data="categoryList" 
-             
+             :data="categoryList"
+             :columns="columns"
+             :selection-type="false"
+              :expand-type="fasle"
+              show-index
+              index-text="#"
+             border
+             :show-row-hover="false"
             >
+            <template slot-scope="val" slot="isok">
+                 <i v-if="val.row.cat_delated==false"></i>
+            </template>
             </zk-table>
         </el-card>
 
@@ -46,8 +56,9 @@ export default {
                },
                {
                    label:'是否有效',
-                   prop:'cat_deleted'
-                  // type:'template'
+                   //prop:'cat_deleted',
+                  type:'template',
+                  template:'isok'
 
                },
                {
@@ -63,7 +74,8 @@ export default {
          getCategory({params:this.queryInfo}).then(res=>{
              if(res.data.meta.status!=200){
                    this.categoryList=res.data.data;
-                   console.log(this.categoryList)
+                   console.log(this.categoryList);
+                   console.log(res.data.data);
              }
             
          })
