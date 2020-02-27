@@ -7,15 +7,18 @@
             <zk-table
              :data="categoryList"
              :columns="columns"
-             :selection-type="false"
-              :expand-type="fasle"
+             :selection-type="props.selectionType"
+              :expand-type="props.expandType"
               show-index
               index-text="#"
              border
-             :show-row-hover="false"
+             :show-row-hover="props.showRowHover"
             >
-            <template slot-scope="val" slot="isok">
-                 <i v-if="val.row.cat_delated==false"></i>
+            <template slot-scope="scope" slot="isok">
+               <i>第一个i  {{scope.row.cat_delated}}</i>
+                 <i v-if="scope.row.cat_delated===true" class="el-icon-success" ></i>
+                 <i v-else >-----{{scope.row.cat_delated}}</i>
+                 <a> {{scope.row.cat_delated}}</a>
             </template>
             </zk-table>
         </el-card>
@@ -31,8 +34,8 @@ export default {
     data(){
         return {
            queryInfo:{  //获取分类查询条件
-              type:'',
-              pagenum:'',
+              type:'3',
+              pagenum:'0',
               pagesize:5
            },
            categoryList:[],
@@ -72,15 +75,18 @@ export default {
     methods:{
      getAllCategory(){
          getCategory({params:this.queryInfo}).then(res=>{
-             if(res.data.meta.status!=200){
-                   this.categoryList=res.data.data;
-                   console.log(this.categoryList);
-                   console.log(res.data.data);
+             if(res.data.meta.status===200){
+                   this.categoryList=res.data.data.result;
+                   //console.log(Array.isArray(this.categoryList));
+                   console.log(res.data.data.result);
              }
             
          })
 
      }
+    },
+    components:{
+
     },
     created(){
    this.getAllCategory();
